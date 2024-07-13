@@ -11,7 +11,7 @@ _**They tell the tale,\
 Of how deception and delusion\
 Will be followed by renewal**_... 
 
-\- lyrics from Колокола ("The Bells") Movement I by S. Rachmaninoff, translated to English by Ahmed E. Ismail ([source](https://www.lieder.net/lieder/assemble_translations.html?SongCycleId=1773&LanguageId=7&ContribId=))
+\- lyrics from Колокола ("The Bells") Op. 35 Movement I by S. Rachmaninoff (1913), translated to English by Ahmed E. Ismail ([source](https://www.lieder.net/lieder/assemble_translations.html?SongCycleId=1773&LanguageId=7&ContribId=))
 
 ## Installation
 
