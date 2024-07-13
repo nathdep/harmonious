@@ -10,7 +10,7 @@
 #' @details See https://mc-stan.org/cmdstanr/
 #'
 .onLoad <- function(libname, pkgname) {
-  if (!requireNamespace("cmdstanr", quietly = TRUE)) {
+  install_cmdstanr <- function() {
     message("cmdstanr package not found. Installation of the package and CmdStan will begin in:")
     
     for (i in 5:0) {
@@ -23,19 +23,8 @@
     
     install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages", getOption("repos")))
   }
-  
-  if (!requireNamespace("cmdstanr", quietly = TRUE)) {
-    stop("cmdstanr package installation failed.")
-  }
-  
-  cmdstan_installed <- tryCatch({
-    cmdstan_path <- cmdstanr::cmdstan_path()
-    dir.exists(cmdstan_path)
-  }, error = function(e) {
-    FALSE
-  })
-  
-  if (!cmdstan_installed) {
+
+  install_cmdstan <- function() {
     message("CmdStan not found or not properly configured. Installation will begin in:")
     
     for (i in 5:0) {
@@ -52,8 +41,29 @@
     }, error = function(e) {
       warning("Failed to install CmdStan: ", e$message, "\nSome features may not work.")
     })
-  } else {
-    message("CmdStan is already installed and configured.")
+  }
+  
+  if (!requireNamespace("cmdstanr", quietly = TRUE)) {
+    install_cmdstanr()
+  }
+  
+  if (!requireNamespace("cmdstanr", quietly = TRUE)) {
+    stop("cmdstanr package installation failed.")
+  }
+  
+  cmdstan_installed <- tryCatch({
+    cmdstan_path <- cmdstanr::cmdstan_path()
+    dir.exists(cmdstan_path)
+  }, error = function(e) {
+    FALSE
+  })
+  
+  if (!cmdstan_installed) {
+    install_cmdstan()
+  }
+  
+  if (!requireNamespace("cmdstanr", quietly = TRUE)) {
+    stop("CmdStan installation failed.")
   }
   
   # Load the cmdstanr package
