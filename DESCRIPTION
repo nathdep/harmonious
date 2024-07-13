@@ -14,8 +14,7 @@ Depends:
     ggplot2,
     pander,
     mathjaxr,
-    loo,
-    cmdstanr
+    loo
 Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
