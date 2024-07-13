@@ -11,7 +11,7 @@ _**They tell the tale,\
 Of how deception and delusion\
 Will be followed by renewal**_... 
 
-\- Колокола (Kolokola), translated to English by Ahmed E. Ismail ([source](https://www.lieder.net/lieder/assemble_translations.html?SongCycleId=1773&LanguageId=7&ContribId=))
+\- lyrics from Колокола (Kolokola), Mvt. I by S. Rachmaninoff, translated to English by Ahmed E. Ismail ([source](https://www.lieder.net/lieder/assemble_translations.html?SongCycleId=1773&LanguageId=7&ContribId=))
 
 ## Installation
 
