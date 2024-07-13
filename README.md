@@ -16,7 +16,7 @@ Will be followed by renewal**_...
 ## Installation
 
 ``` r
-remotes::install_github("nathdep/NathansComps")
+remotes::install_github("nathdep/harmonious")
 ```
 
 ## Example Usage
