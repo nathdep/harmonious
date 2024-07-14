@@ -20,10 +20,10 @@ model <- CreateMod(
   aux_envir=aux_envir,
   coef_hyper=coef_hyper,
   sd_hyper=sd_hyper,
-  nWarmup_init=1000,
-  nSamples_init=1000,
-  nWarmup_run=1000,
-  nSamples_run=1000
+  nWarmup_init=2000,
+  nSamples_init=2000,
+  nWarmup_run=2000,
+  nSamples_run=2000
 )
 
 fileDetails <- paste0(seed, "_P", P, "_I", I, "_J", J, "_K", K)
