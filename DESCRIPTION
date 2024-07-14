@@ -1,4 +1,4 @@
-Package: harmonious
++Package: harmonious
 Type: Package
 Title: Explanatory Item Response modeling in CmdStanR
 Version: 0.1.0
@@ -15,10 +15,11 @@ Depends:
     pander,
     mathjaxr,
     loo,
-    cmdstanr (>= 0.1.0)
+    remotes
 Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 RoxygenNote: 7.3.2
 Roxygen: list(markdown=TRUE)
 RdMacros: mathjaxr
+Remotes: stan-dev/cmdstanr
