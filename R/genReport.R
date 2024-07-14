@@ -49,7 +49,7 @@ genReport <- function(saveDir, fileDetails, ...){
   eap_omega <- as.data.frame(round(eap_omega, digits=3))
   colnames(eap_omega) = rownames(eap_omega) = c("\u03bb", "\u03c4")
   print(eap_omega)
-  cat("\n\nTRUE \u03A3 ITEM REISUDALS: \n\n")
+  cat("\n\nEAP \u03A3 ITEM REISUDALS: \n\n")
   eap_sigma <- modsum[grepl("^Sigma_items\\[", modsum$variable),]$mean
   dim(eap_sigma) <- c(2,2)
   eap_sigma <- as.data.frame(round(eap_sigma, digits=3))
