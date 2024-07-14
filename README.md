@@ -22,7 +22,7 @@ remotes::install_github("nathdep/harmonious")
 ## Example Usage
 
 ``` r
-library(NathansComps)
+library(harmonious)
 
 seed <- abs(.Random.seed[4])
 set.seed(seed)
