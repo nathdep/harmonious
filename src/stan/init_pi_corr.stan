@@ -18,6 +18,9 @@ data{
   row_vector[I] true_tau;
   row_vector[I] true_lambda;
   vector[P] sum_score;
+  row_vector[K-1] true_beta_k_lambda_est;
+  row_vector[K-1] true_beta_k_tau_est;
+  matrix[J-1,K-1] true_beta_jk_eta_est;
 }
 parameters{
   matrix[2,I] z_items;
@@ -70,6 +73,10 @@ generated quantities{
 
   real sd_bias_tau=sd(tau-true_tau);
   real sd_bias_lambda=sd(lambda-true_lambda);
+
+  row_vector[K-1] bias_beta_k_lambda_est = beta_k_lambda_est - true_beta_k_lambda_est;
+  row_vector[K-1] bias_beta_k_tau_est = beta_k_tau_est - true_beta_k_tau_est;
+  matrix[J-1,K-1] bias_beta_jk_eta_est = beta_jk_eta_est - true_beta_jk_eta_est;
 
   matrix[2,2] Omega_items = multiply_lower_tri_self_transpose(Omega_itemsL);
   matrix[2,2] Sigma_items = multiply_lower_tri_self_transpose(diag_pre_multiply([sigma_lambda, sigma_tau], Omega_itemsL));

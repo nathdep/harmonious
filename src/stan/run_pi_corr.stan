@@ -17,6 +17,10 @@ data{
   vector[P] true_theta;
   row_vector[I] true_tau;
   row_vector[I] true_lambda;
+  vector[J-1] true_beta_j_theta_est;
+  row_vector[K-1] true_beta_k_lambda_est;
+  row_vector[K-1] true_beta_k_tau_est;
+  matrix[J-1,K-1] true_beta_jk_eta_est;
 }
 parameters{
   vector[P] u_p_theta;
@@ -77,6 +81,11 @@ generated quantities{
   real sd_bias_theta=sd(theta-true_theta);
   real sd_bias_tau=sd(tau-true_tau);
   real sd_bias_lambda=sd(lambda-true_lambda);
+
+  vector[J-1] bias_beta_j_theta_est = beta_j_theta_est - true_beta_j_theta_est;
+  row_vector[K-1] bias_beta_k_lambda_est = beta_k_lambda_est - true_beta_k_lambda_est;
+  row_vector[K-1] bias_beta_k_tau_est = beta_k_tau_est - true_beta_k_tau_est;
+  matrix[J-1,K-1] bias_beta_jk_eta_est = beta_jk_eta_est - true_beta_jk_eta_est;
 
   matrix[2,2] Omega_items = multiply_lower_tri_self_transpose(Omega_itemsL);
   matrix[2,2] Sigma_items = multiply_lower_tri_self_transpose(diag_pre_multiply([sigma_lambda, sigma_tau], Omega_itemsL));

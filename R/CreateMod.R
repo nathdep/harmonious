@@ -58,7 +58,11 @@ CreateMod <- function(
       true_theta=theta,
       true_lambda=lambda,
       true_tau=tau,
-      sum_score=init_theta
+      sum_score=init_theta,
+      true_beta_j_theta_est=beta_j_theta_est,
+      true_beta_k_lambda_est=beta_k_lambda_est,
+      true_beta_k_tau_est=beta_k_tau_est,
+      true_beta_jk_eta_est=beta_jk_eta_est
     )
 
     if(isCorrI){
@@ -105,7 +109,11 @@ CreateMod <- function(
       sd_hyper=sd_hyper,
       true_theta=theta,
       true_lambda=lambda,
-      true_tau=tau
+      true_tau=tau,
+      true_beta_j_theta_est=beta_j_theta_est,
+      true_beta_k_lambda_est=beta_k_lambda_est,
+      true_beta_k_tau_est=beta_k_tau_est,
+      true_beta_jk_eta_est=beta_jk_eta_est
     )
 
     if(isCorrI){
