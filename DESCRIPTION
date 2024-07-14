@@ -1,4 +1,4 @@
-+Package: harmonious
+Package: harmonious
 Type: Package
 Title: Explanatory Item Response modeling in CmdStanR
 Version: 0.1.0
