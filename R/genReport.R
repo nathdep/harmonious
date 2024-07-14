@@ -76,7 +76,7 @@ genReport <- function(saveDir, fileDetails, ...){
   }
 
   if(any(grepl("^bias", modsum$variable))){
-    cat("COEFFICIENT POSTERIOR BIAS\n\n")
+    cat("COEFFICIENT POSTERIOR BIAS (EST. - TRUE)\n\n")
     pandoc.table(modsum[grepl("^bias", modsum$variable),])
     cat("\n\n\n")
   }
