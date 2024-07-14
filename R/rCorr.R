@@ -1,10 +1,11 @@
 #' \loadmathjax{}
 #' @title Randomly Sample a Cholesky Factorized, Lower Triangular Matrix from a Lewandowski-Kurowicka-Joe Distribution
 #' @description Generates a lower triangular, invertible, positive-definite matrix
-#' @details Using the onion method, samples a Cholesky factorized lower-triangular matrix \mjeqn{L}{} from a Lewandowski-Kurowicka-Joe (LKJ) distribution given the concentration hyperparameter \mjeqn{\eta}{}, such that: \mjdeqn{A=LL^{\top}}{} where \mjeqn{A}{} is a \mjeqn{n \times n}{} matrix and is a member of the set of all symmetric, positive-definite matrices.
+#' @details Using the onion method (Ghosh & Henderson, 2003), samples a Cholesky factorized lower-triangular matrix \mjeqn{L}{} from a Lewandowski-Kurowicka-Joe (LKJ) distribution given the concentration hyperparameter \mjeqn{\eta}{}, such that: \mjdeqn{A=LL^{\top}}{} where \mjeqn{A}{} is a \mjeqn{n \times n}{} matrix and is a member of the set of all symmetric, positive-definite matrices.
 #' @param nDim desired dimension of the sampled \mjeqn{n \times n}{} matrix
 #' @param eta concentration hyperparameter
 #' @returns a lower triangular \mjeqn{n \times n}{} matrix
+#' @references Ghosh, S. and Henderson, S. G. (2003). Behavior of the norta method for correlated random vector generation as the dimension increases. ACM Transactions on Modeling and Computer Simulation, 13(3), 276-294. https://doi.org/10.1145/937332.937336
 #' @export
 rCorr <- function(nDim, eta=1){
   OmegaL <- matrix(data=0, nrow=nDim, ncol=nDim)

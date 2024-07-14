@@ -20,5 +20,8 @@ Generates a lower triangular, invertible, positive-definite matrix
 \details{
 \loadmathjax{}
 
-Using the onion method, samples a Cholesky factorized lower-triangular matrix \mjeqn{L}{} from a Lewandowski-Kurowicka-Joe (LKJ) distribution given the concentration hyperparameter \mjeqn{\eta}{}, such that: \mjdeqn{A=LL^{\top}}{} where \mjeqn{A}{} is a \mjeqn{n \times n}{} matrix and is a member of the set of all symmetric, positive-definite matrices.
+Using the onion method (Ghosh & Henderson, 2003), samples a Cholesky factorized lower-triangular matrix \mjeqn{L}{} from a Lewandowski-Kurowicka-Joe (LKJ) distribution given the concentration hyperparameter \mjeqn{\eta}{}, such that: \mjdeqn{A=LL^{\top}}{} where \mjeqn{A}{} is a \mjeqn{n \times n}{} matrix and is a member of the set of all symmetric, positive-definite matrices.
+}
+\references{
+Ghosh, S. and Henderson, S. G. (2003). Behavior of the norta method for correlated random vector generation as the dimension increases. ACM Transactions on Modeling and Computer Simulation, 13(3), 276-294. https://doi.org/10.1145/937332.937336
 }
