@@ -19,6 +19,7 @@
 #'
 #'@export
 #'@returns modified free \mjeqn{\theta}{} model that is added to an environment created by \code{\link{CreateMod}}
+#'@references Vehtari, A., Gelman, A., Simpson, D., Carpenter, B., & Bürkner, P. (2021). Rank-normalization, folding, and localization: an improved rˆ for assessing convergence of mcmc (with discussion). Bayesian Analysis, 16(2). https://doi.org/10.1214/20-ba1221
 #'@seealso \code{\link{CreateMod}}
 rhatCheck <- function(...){
   cycle=1
