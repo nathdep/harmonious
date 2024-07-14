@@ -23,7 +23,7 @@ Helper function that validates \mjeqn{\hat{R}}{} convergence.
 \textbf{Input: } \texttt{CmdStan}\hspace{3pt}\text{model,}\hspace{3pt}N_{\mathrm{max}}\text{,}\hspace{3pt}\hat{R}_{1} \\
 \text{Sample }\texttt{CmdStan}\hspace{3pt}\text{model} \\
 \quad \textbf{while}\hspace{5pt} \hat{R}_{n}\leq\hat{R}_{thresh}\hspace{5pt} \textbf{or} \hspace{5pt} n \leq N_{\mathrm{max}}\hspace{5pt}\textbf{do} \\
-\qquad \text{Sample free } \theta \text{ model} \\
+\qquad \text{Sample }\texttt{CmdStan}\hspace{3pt}\text{model} \\
 \qquad n \mathrel{+}= 1 \\
 \quad \textbf{end do} \\
 \textbf{end while} \\
