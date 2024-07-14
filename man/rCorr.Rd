@@ -2,7 +2,7 @@
 % Please edit documentation in R/rCorr.R
 \name{rCorr}
 \alias{rCorr}
-\title{Generation of Data for the Person-by-Item Interaction Model}
+\title{Randomly Sample a Cholesky Factorized, Lower Triangular Matrix from a Lewandowski-Kurowicka-Joe Distribution}
 \usage{
 rCorr(nDim, eta = 1)
 }
@@ -12,10 +12,10 @@ rCorr(nDim, eta = 1)
 \item{eta}{concentration hyperparameter}
 }
 \value{
-a Choleksy-factorized, lower triangular matrix
+a lower triangular \mjeqn{n \times n}{} matrix
 }
 \description{
-randomly samples a lower triangular, Cholesky-factorized matrix \mjeqn{L}{} from a Lewandowski-Kurowicka-Joe (LKJ) distribution given \mjeqn{\eta}{}.
+Generates a lower triangular, invertible, positive-definite matrix
 }
 \details{
 \loadmathjax{}

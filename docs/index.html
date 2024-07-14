@@ -85,8 +85,6 @@ Will be followed by renewal</strong></em>…</p>
 <span><span class="va">sd_hyper</span><span class="op">=</span><span class="fl">.1</span></span>
 <span><span class="va">rhat_threshold</span><span class="op">=</span><span class="fl">1.06</span></span>
 <span><span class="va">maxCycles</span><span class="op">=</span><span class="fl">3</span></span>
-<span><span class="va">init_modname</span><span class="op">=</span><span class="st">"init_pi"</span></span>
-<span><span class="va">run_modname</span><span class="op">=</span><span class="st">"run_pi"</span></span>
 <span><span class="va">saveDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">aux_envir</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/genData.html">genData</a></span><span class="op">(</span></span>
@@ -94,19 +92,17 @@ Will be followed by renewal</strong></em>…</p>
 <span>  I<span class="op">=</span><span class="fl">75</span>,</span>
 <span>  J<span class="op">=</span><span class="fl">3</span>,</span>
 <span>  K<span class="op">=</span><span class="fl">3</span>,</span>
-<span>  isCorrI<span class="op">=</span><span class="cn">TRUE</span></span>
+<span>  isCorrI<span class="op">=</span><span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/CreateMod.html">CreateMod</a></span><span class="op">(</span></span>
-<span>  init_modname<span class="op">=</span><span class="va">init_modname</span>,</span>
-<span>  run_modname<span class="op">=</span><span class="va">run_modname</span>,</span>
 <span>  aux_envir<span class="op">=</span><span class="va">aux_envir</span>,</span>
 <span>  coef_hyper<span class="op">=</span><span class="va">coef_hyper</span>,</span>
 <span>  sd_hyper<span class="op">=</span><span class="va">sd_hyper</span>,</span>
-<span>  nWarmup_init<span class="op">=</span><span class="fl">1000</span>,</span>
-<span>  nSamples_init<span class="op">=</span><span class="fl">1000</span>,</span>
-<span>  nWarmup_run<span class="op">=</span><span class="fl">1000</span>,</span>
-<span>  nSamples_run<span class="op">=</span><span class="fl">1000</span></span>
+<span>  nWarmup_init<span class="op">=</span><span class="fl">2000</span>,</span>
+<span>  nSamples_init<span class="op">=</span><span class="fl">2000</span>,</span>
+<span>  nWarmup_run<span class="op">=</span><span class="fl">2000</span>,</span>
+<span>  nSamples_run<span class="op">=</span><span class="fl">2000</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fileDetails</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">seed</span>, <span class="st">"_P"</span>, <span class="va">P</span>, <span class="st">"_I"</span>, <span class="va">I</span>, <span class="st">"_J"</span>, <span class="va">J</span>, <span class="st">"_K"</span>, <span class="va">K</span><span class="op">)</span></span>
@@ -118,11 +114,16 @@ Will be followed by renewal</strong></em>…</p>
 <span><span class="fu"><a href="reference/genReport.html">genReport</a></span><span class="op">(</span>saveDir<span class="op">=</span><span class="va">saveDir</span>, fileDetails<span class="op">=</span><span class="va">fileDetails</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level1">
-<div class="page-header"><h1 id="example-report">Example Report<a class="anchor" aria-label="anchor" href="#example-report"></a>
+<div class="page-header"><h1 id="example-reports">Example Reports<a class="anchor" aria-label="anchor" href="#example-reports"></a>
 </h1></div>
-<pre><code>====================
+<div class="section level2">
+<h2 id="unstructureduncorrelated-item-residiuals">Unstructured/Uncorrelated Item Residiuals<a class="anchor" aria-label="anchor" href="#unstructureduncorrelated-item-residiuals"></a>
+</h2>
+<pre><code>
 
-SEED  324845772
+====================
+
+SEED  1528295356
 
 ====================
 
@@ -130,63 +131,48 @@ P:  250
 I:  75
 J:  3
 K:  3
-PROPORTION Σ[λ_i &lt; 0]/I = 25%
-MAX RHAT: 1.04/u_items[2,9]
+
+PROPORTION Σ[λ_i &lt; 0]/I = 7%
+MAX RHAT: 1.011 / bias_beta_j_theta_est[2]
+
+# BURN-IN DRAWS (INIT): 2000
+# BURN-IN DRAWS (FREE): 2000
+# POSTERIOR DRAWS POST BURN-IN (INIT): 2000
+# POSTERIOR DRAWS POST BURN-IN (FREE): 2000
+# RHAT CYCLES: 1
+
+
 
 TRUE Ω ITEM RESIDUALS:
 
-       λ      τ
-λ  1.000 -0.809
-τ -0.809  1.000
+  λ τ
+λ 1 0
+τ 0 1
 
 
 TRUE Σ ITEM REISUDALS:
 
-       λ      τ
-λ  3.338 -1.754
-τ -1.754  1.407
+      λ    τ
+λ 0.893 0.00
+τ 0.000 2.63
+
+
+
 
 
 EAP Ω ITEM RESIDUALS:
 
-       λ      τ
-λ  1.000 -0.754
-τ -0.754  1.000
+  λ τ
+λ 1 0
+τ 0 1
 
 
-TRUE Σ ITEM REISUDALS:
+EAP Σ ITEM REISUDALS:
 
-       λ      τ
-λ  3.074 -1.447
-τ -1.447  1.194
+      λ     τ
+λ 0.995 0.000
+τ 0.000 3.269
 
-
-MEAN POSTERIOR BIAS (EST - TRUE)
-
-
----------------------------------------------------------------------------------------------------------------
-     variable         mean      median      sd        mad        q5        q95     rhat    ess_bulk   ess_tail
------------------- ---------- ---------- --------- --------- ---------- --------- ------- ---------- ----------
- mean_bias_theta    -0.06393   -0.06384   0.09465   0.09231   -0.2211    0.09512   1.032    186.2       440
-
-  mean_bias_tau      0.1057     0.1066     0.107    0.1054    -0.06955   0.2786    1.031    189.9      478.5
-
- mean_bias_lambda   0.006611   0.005976   0.06554   0.06628   -0.09831   0.1176    1.01      525        1436
----------------------------------------------------------------------------------------------------------------
-
-
-S.D. POSTERIOR BIAS (EST-TRUE)
-
-
-------------------------------------------------------------------------------------------------------
-    variable       mean    median     sd        mad       q5      q95     rhat    ess_bulk   ess_tail
----------------- -------- -------- --------- --------- -------- -------- ------- ---------- ----------
- sd_bias_theta    0.3621   0.3617   0.01965   0.01901   0.3318   0.3962   1.002     1390       1687
-
-  sd_bias_tau     0.3445   0.3269   0.06749   0.04985   0.2681   0.4803   1.013    466.2      683.9
-
- sd_bias_lambda   0.4561   0.4513   0.05238   0.04962   0.3805   0.5496   1.001     2071       2128
-------------------------------------------------------------------------------------------------------
 
 
 POSTERIOR RMSD
@@ -195,26 +181,30 @@ POSTERIOR RMSD
 ---------------------------------------------------------------------------------------------------
   variable      mean    median     sd        mad       q5      q95     rhat    ess_bulk   ess_tail
 ------------- -------- -------- --------- --------- -------- -------- ------- ---------- ----------
- rmsd_theta    0.2816   0.2764   0.0259    0.01986   0.2496   0.3299   1.014    555.8      695.5
+ rmsd_theta    0.2644   0.2572   0.02872   0.02212   0.2311   0.3194   1.001     1077       1431
 
-  rmsd_tau     0.2817   0.2625   0.06911   0.0489    0.2093   0.4233   1.017    392.3      570.5
+  rmsd_tau     0.3021   0.2909   0.05058   0.0386    0.242     0.4       1       1428       1604
 
- rmsd_lambda   0.3313   0.3297   0.03039   0.02876   0.2856   0.3827     1       2363       2322
+ rmsd_lambda   0.2806   0.2784   0.02678   0.02477    0.24    0.3268   1.001     4549       4832
 ---------------------------------------------------------------------------------------------------
+
+
 
 
 MEAN POSTERIOR BIAS (EST. - TRUE)
 
 
----------------------------------------------------------------------------------------------------------------
-     variable         mean      median      sd        mad        q5        q95     rhat    ess_bulk   ess_tail
------------------- ---------- ---------- --------- --------- ---------- --------- ------- ---------- ----------
- mean_bias_theta    -0.06393   -0.06384   0.09465   0.09231   -0.2211    0.09512   1.032    186.2       440
+-------------------------------------------------------------------------------------------------------------
+     variable        mean      median      sd        mad       q5        q95     rhat    ess_bulk   ess_tail
+------------------ --------- ---------- --------- --------- --------- --------- ------- ---------- ----------
+ mean_bias_theta    -0.0929   -0.09438   0.09423   0.09378   -0.2442   0.06176   1.003    649.5       1277
 
-  mean_bias_tau      0.1057     0.1066     0.107    0.1054    -0.06955   0.2786    1.031    189.9      478.5
+  mean_bias_tau     0.04098   0.04447    0.1351    0.1328    -0.1808   0.2606    1.003    669.9       1433
 
- mean_bias_lambda   0.006611   0.005976   0.06554   0.06628   -0.09831   0.1176    1.01      525        1436
----------------------------------------------------------------------------------------------------------------
+ mean_bias_lambda   0.03778   0.03473    0.07424   0.07303   -0.0788   0.1638    1.002     1478       3021
+-------------------------------------------------------------------------------------------------------------
+
+
 
 
 S.D. POSTERIOR BIAS (EST. - TRUE)
@@ -223,13 +213,179 @@ S.D. POSTERIOR BIAS (EST. - TRUE)
 ------------------------------------------------------------------------------------------------------
     variable       mean    median     sd        mad       q5      q95     rhat    ess_bulk   ess_tail
 ---------------- -------- -------- --------- --------- -------- -------- ------- ---------- ----------
- sd_bias_theta    0.3621   0.3617   0.01965   0.01901   0.3318   0.3962   1.002     1390       1687
+ sd_bias_theta    0.313    0.3126   0.01506   0.01479   0.2893   0.3386     1       4854       5255
 
-  sd_bias_tau     0.3445   0.3269   0.06749   0.04985   0.2681   0.4803   1.013    466.2      683.9
+  sd_bias_tau     0.3718   0.3685   0.04134   0.03941   0.3103   0.4448   1.001     1856       2407
 
- sd_bias_lambda   0.4561   0.4513   0.05238   0.04962   0.3805   0.5496   1.001     2071       2128
+ sd_bias_lambda   0.3526   0.3511   0.03132   0.03005   0.3042   0.4065     1       5710       5775
 ------------------------------------------------------------------------------------------------------
+
+
+
+
+COEFFICIENT POSTERIOR BIAS (EST. - TRUE)
+
+
+----------------------------------------------------------------------------------------------------------------------------
+         variable              mean       median       sd        mad        q5         q95      rhat    ess_bulk   ess_tail
+--------------------------- ----------- ----------- --------- --------- ---------- ----------- ------- ---------- ----------
+ bias_beta_j_theta_est[1]     -0.2594     -0.2595    0.1554    0.1563    -0.5129    -0.006979   1.007    609.6       1159
+
+ bias_beta_j_theta_est[2]    -0.007439   -0.008171   0.1553    0.1575    -0.2616     0.2538     1.011    767.4       1588
+
+ bias_beta_k_lambda_est[1]   -0.005771   -0.008401   0.1896    0.1905    -0.3127     0.3084     1.003     1306       2364
+
+ bias_beta_k_lambda_est[2]    -0.1658     -0.1693    0.2163    0.2133    -0.5165      0.202     1.003     1385       2206
+
+  bias_beta_k_tau_est[1]      -0.1114     -0.1226    0.3457    0.3432    -0.6654     0.4847     1.002    520.4       1178
+
+  bias_beta_k_tau_est[2]      0.4937      0.4999     0.3802    0.3693    -0.1471      1.114     1.004    799.9       1571
+
+ bias_beta_jk_eta_est[1,1]    0.1708      0.1707     0.1007     0.101    0.007016    0.3387       1      11566       6633
+
+ bias_beta_jk_eta_est[2,1]    0.1831      0.1834     0.1071    0.1073    0.004467    0.3601       1      10759       6491
+
+ bias_beta_jk_eta_est[1,2]   -0.06548    -0.06684    0.09833   0.09885   -0.2286     0.09634    1.001    12420       6796
+
+ bias_beta_jk_eta_est[2,2]    0.08803     0.08866    0.1059    0.1059    -0.08972    0.2601     1.001    13356       6744
+----------------------------------------------------------------------------------------------------------------------------
 </code></pre>
+</div>
+<div class="section level2">
+<h2 id="structuredcorrelated-item-residuals">Structured/Correlated Item Residuals<a class="anchor" aria-label="anchor" href="#structuredcorrelated-item-residuals"></a>
+</h2>
+<pre><code>
+
+====================
+
+SEED  1003184675
+
+====================
+
+P:  250
+I:  75
+J:  3
+K:  3
+
+PROPORTION Σ[λ_i &lt; 0]/I = 21%
+MAX RHAT: 1.015 / Omega_itemsL[2,1]
+
+# BURN-IN DRAWS (INIT): 2000
+# BURN-IN DRAWS (FREE): 2000
+# POSTERIOR DRAWS POST BURN-IN (INIT): 2000
+# POSTERIOR DRAWS POST BURN-IN (FREE): 2000
+# RHAT CYCLES: 1
+
+
+
+TRUE Ω ITEM RESIDUALS:
+
+      λ     τ
+λ 1.000 0.655
+τ 0.655 1.000
+
+
+TRUE Σ ITEM REISUDALS:
+
+      λ     τ
+λ 2.643 1.247
+τ 1.247 1.371
+
+
+
+
+
+EAP Ω ITEM RESIDUALS:
+
+      λ     τ
+λ 1.000 0.499
+τ 0.499 1.000
+
+
+EAP Σ ITEM REISUDALS:
+
+      λ     τ
+λ 2.144 0.789
+τ 0.789 1.133
+
+
+
+POSTERIOR RMSD
+
+
+---------------------------------------------------------------------------------------------------
+  variable      mean    median     sd        mad       q5      q95     rhat    ess_bulk   ess_tail
+------------- -------- -------- --------- --------- -------- -------- ------- ---------- ----------
+ rmsd_theta    0.2927   0.2892   0.02327   0.01948   0.2619   0.3356   1.003     1515       2022
+
+  rmsd_tau     0.252    0.2386   0.05174   0.03786   0.1945   0.3557   1.003     1313       1766
+
+ rmsd_lambda   0.2938   0.2928   0.02765   0.02754   0.2495   0.3407   1.001     3941       4975
+---------------------------------------------------------------------------------------------------
+
+
+
+
+MEAN POSTERIOR BIAS (EST. - TRUE)
+
+
+----------------------------------------------------------------------------------------------------------------
+     variable         mean      median      sd        mad       q5         q95      rhat    ess_bulk   ess_tail
+------------------ ---------- ---------- --------- --------- --------- ----------- ------- ---------- ----------
+ mean_bias_theta    0.04525    0.04673    0.09232   0.09085   -0.1099    0.1944     1.011    678.4       1324
+
+  mean_bias_tau     -0.04277   -0.04329   0.09589   0.09451   -0.2012    0.1167     1.009     733        1581
+
+ mean_bias_lambda   -0.09481   -0.09717   0.05687   0.05723   -0.1825   8.427e-06   1.007     1546       2421
+----------------------------------------------------------------------------------------------------------------
+
+
+
+
+S.D. POSTERIOR BIAS (EST. - TRUE)
+
+
+------------------------------------------------------------------------------------------------------
+    variable       mean    median     sd        mad       q5      q95     rhat    ess_bulk   ess_tail
+---------------- -------- -------- --------- --------- -------- -------- ------- ---------- ----------
+ sd_bias_theta    0.3797   0.379    0.02021   0.01975   0.3477   0.4142   1.001     3785       4672
+
+  sd_bias_tau     0.315    0.3035   0.05441   0.04266   0.2497   0.4209   1.002     1522       1846
+
+ sd_bias_lambda   0.4015   0.3999   0.04259   0.04381   0.3353   0.4746   1.001     5223       6124
+------------------------------------------------------------------------------------------------------
+
+
+
+
+COEFFICIENT POSTERIOR BIAS (EST. - TRUE)
+
+
+--------------------------------------------------------------------------------------------------------------------------
+         variable              mean       median       sd        mad       q5        q95      rhat    ess_bulk   ess_tail
+--------------------------- ----------- ----------- --------- --------- --------- ---------- ------- ---------- ----------
+ bias_beta_j_theta_est[1]     0.1107      0.1077     0.1625    0.1642    -0.1534    0.3802    1.005    876.8       1892
+
+ bias_beta_j_theta_est[2]     0.0461      0.04479    0.1437    0.1422    -0.1892    0.283     1.012    762.8       1242
+
+ bias_beta_k_lambda_est[1]    -0.5808     -0.584     0.2945    0.2857    -1.059    -0.08826   1.005    830.2       1595
+
+ bias_beta_k_lambda_est[2]    0.1332      0.1308     0.3098    0.3064    -0.3737    0.6475    1.003     1016       1835
+
+  bias_beta_k_tau_est[1]      -0.2231     -0.2244    0.2155    0.2137    -0.5735    0.1308    1.002     1090       1976
+
+  bias_beta_k_tau_est[2]      0.1193      0.1128     0.2863    0.2746    -0.347     0.5975    1.005    939.9       1260
+
+ bias_beta_jk_eta_est[1,1]    -0.1146     -0.114     0.08569   0.08648   -0.2561   0.02314      1      10460       6505
+
+ bias_beta_jk_eta_est[2,1]   -0.006861   -0.005843   0.08027   0.07922   -0.1402    0.1261    1.001    10673       5993
+
+ bias_beta_jk_eta_est[1,2]    -0.1504     -0.1497    0.1159    0.1138    -0.3407   0.03986      1      10289       6395
+
+ bias_beta_jk_eta_est[2,2]    -0.1307     -0.1323    0.1026    0.1032    -0.2961   0.03709      1       9941       5907
+--------------------------------------------------------------------------------------------------------------------------
+</code></pre>
+</div>
 </div>
 
   </div>

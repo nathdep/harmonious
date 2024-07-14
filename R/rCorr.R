@@ -1,10 +1,10 @@
 #' \loadmathjax{}
-#' @title Generation of Data for the Person-by-Item Interaction Model
-#' @description randomly samples a lower triangular, Cholesky-factorized matrix \mjeqn{L}{} from a Lewandowski-Kurowicka-Joe (LKJ) distribution given \mjeqn{\eta}{}.
+#' @title Randomly Sample a Cholesky Factorized, Lower Triangular Matrix from a Lewandowski-Kurowicka-Joe Distribution
+#' @description Generates a lower triangular, invertible, positive-definite matrix
 #' @details Using the onion method, samples a Cholesky factorized lower-triangular matrix \mjeqn{L}{} from a Lewandowski-Kurowicka-Joe (LKJ) distribution given the concentration hyperparameter \mjeqn{\eta}{}, such that: \mjdeqn{A=LL^{\top}}{} where \mjeqn{A}{} is a \mjeqn{n \times n}{} matrix and is a member of the set of all symmetric, positive-definite matrices.
 #' @param nDim desired dimension of the sampled \mjeqn{n \times n}{} matrix
 #' @param eta concentration hyperparameter
-#' @returns a Choleksy-factorized, lower triangular matrix
+#' @returns a lower triangular \mjeqn{n \times n}{} matrix
 #' @export
 rCorr <- function(nDim, eta=1){
   OmegaL <- matrix(data=0, nrow=nDim, ncol=nDim)
