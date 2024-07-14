@@ -18,10 +18,10 @@ Depends:
     remotes
 Suggests:
     testthat (>= 3.0.0)
+Remotes: stan-dev/cmdstanr
 Config/testthat/edition: 3
 RoxygenNote: 7.3.2
 Roxygen: list(markdown=TRUE)
 RdMacros: mathjaxr
-Remotes: stan-dev/cmdstanr
-Imports: 
-    cmdstanr
+
+
