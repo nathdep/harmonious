@@ -1,18 +1,3 @@
-
-Listen! Sleds rushing past in a row,\
-Rushing past in a row! \
-Their tiny bells ringing, \
-Their easy, silvery peal falls on our ears like ambrosia,\
-Their humming and pinging whisper of oblivion.\
-O how clearly, clearly, clearly --\
-Indeed, with sonorous childlike laughter --\
-In the clear night air\
-_**They tell the tale,\
-Of how deception and delusion\
-Will be followed by renewal**_... 
-
-\- lyrics from Колокола ("The Bells") Op. 35 Movement I by S. Rachmaninoff (1913), translated to English by Ahmed E. Ismail ([source](https://www.lieder.net/lieder/assemble_translations.html?SongCycleId=1773&LanguageId=7&ContribId=))
-
 ## Installation
 
 ``` r
