@@ -168,7 +168,7 @@ S.D. POSTERIOR BIAS (EST. - TRUE)
 
 
 
-COEFFICIENT POSTERIOR BIAS
+COEFFICIENT POSTERIOR BIAS (EST. - TRUE)
 
 
 ----------------------------------------------------------------------------------------------------------------------------
@@ -304,7 +304,7 @@ S.D. POSTERIOR BIAS (EST. - TRUE)
 
 
 
-COEFFICIENT POSTERIOR BIAS
+COEFFICIENT POSTERIOR BIAS (EST. - TRUE)
 
 
 --------------------------------------------------------------------------------------------------------------------------
