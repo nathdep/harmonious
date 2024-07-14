@@ -1,3 +1,6 @@
+
+**Documentation can be found by clicking [here](https://github.com/nathdep/harmonious/blob/main/harmonious_0.1.0.pdf)**
+
 ## Installation
 
 ``` r
