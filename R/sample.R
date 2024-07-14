@@ -22,7 +22,7 @@ sample <- function(...){
     true_tau=tau
   )
 
-  modstan <- cmdstan_model(stan_file=runFile)
+  modstan <- stan_package_model(name = modname, package = "harmonious")
 
   modrun <- modstan$sample(
     iter_warmup=nWarmup_run,

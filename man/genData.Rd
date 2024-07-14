@@ -16,6 +16,8 @@ genData(P, I, J, K, seed = NULL, isCorrI = TRUE)
 \item{K}{Number of potential person feature categories}
 
 \item{seed}{Integer seed for replication (if \code{NULL}, a random seed will be generated)}
+
+\item{isCorrI}{Draw Cholesky-factorized lower triangular matrix for modeling structured item residuals?}
 }
 \value{
 an environment containing simulated data

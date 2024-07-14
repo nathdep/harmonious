@@ -3,8 +3,6 @@
 #'
 #'@description Creates an environment to estimate the \mjeqn{p \times i}{} interaction model with CmdStan.
 #'@returns an environment object containing fixed \mjeqn{\theta}{} and free \mjeqn{\theta}{} model results
-#'@param initFile Path to .stan file with fixed \mjeqn{\theta}{} model configuration
-#'@param runFile Path to .stan file with the free \mjeqn{\theta}{} model configuration
 #'@param aux_envir An environment object that contains objects to be loaded into the `CreateMod` environment (such as is returned by the \code{\link{genData}} function)
 #'@param coef_hyper Hyperparameter value for the standard deviation of normally distributed parameters
 #'@param sd_hyper Hyperparameter value for the shape parameter of gamma distributed parameters
@@ -18,8 +16,6 @@
 #'@export
 #'
 CreateMod <- function(
-    initFile,
-    runFile,
     coef_hyper,
     sd_hyper,
     nWarmup_init,
@@ -35,6 +31,7 @@ CreateMod <- function(
   list2env(as.list(aux_envir), envir=environment())
 
   initialize <- function(...){
+
     init_theta <- (rowSums(resps) - mean(rowSums(resps)))/sd(rowSums(resps))
     init_lambda <- vector(length=I, mode="numeric")
     init_tau <- vector(length=I, mode="numeric")
@@ -47,8 +44,6 @@ CreateMod <- function(
 
     init_sigma_lambda <- sd(init_lambda)
     init_sigma_tau <- sd(init_tau)
-
-    initstan <- cmdstan_model(initFile)
 
     initdata <- list(
       P=nrow(resps),
@@ -65,6 +60,18 @@ CreateMod <- function(
       true_tau=tau,
       sum_score=init_theta
     )
+
+    if(isCorrI){
+      initName = "init_pi_corr"
+      initstan <- stan_package_model(name = initName, package = "harmonious")
+    }
+
+    if(!isCorrI){
+      initName = "init_pi"
+      initstan <- stan_package_model(name=initName, package="harmonious")
+    }
+
+    cat(paste0("\n\nRUNNING ", initName, "\n\n"))
 
     initrun <- initstan$sample(
       iter_warmup=nWarmup_init,
@@ -101,7 +108,17 @@ CreateMod <- function(
       true_tau=tau
     )
 
-    modstan <- cmdstan_model(stan_file=runFile)
+    if(isCorrI){
+      runName = "run_pi_corr"
+      modstan <- stan_package_model(name = runName, package = "harmonious")
+    }
+
+    if(!isCorrI){
+      runName="run_pi"
+      modstan <- stan_package_model(name = runName, package = "harmonious")
+    }
+
+    cat(paste0("\n\nRUNNING ", runName, "\n\n"))
 
     modrun <- modstan$sample(
       iter_warmup=nWarmup_run,

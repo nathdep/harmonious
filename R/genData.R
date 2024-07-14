@@ -8,6 +8,7 @@
 #'@param J Number of potential item feature categories
 #'@param K Number of potential person feature categories
 #'@param seed Integer seed for replication (if `NULL`, a random seed will be generated)
+#'@param isCorrI Draw Cholesky-factorized lower triangular matrix for modeling structured item residuals?
 #'
 #' @details Let a model of the log-odds transformed outcome \mjeqn{(\eta_{pi})}{} be defined as:
 #' \mjdeqn{\eta_{pi} = \theta_{p}\lambda_{i} + \tau_{i} + \sum_{k=1}^{K}\sum_{j=1}^{J}\beta_{jk_{(\eta)}}x_{ik}z_{pj}}{ representation}{}
@@ -70,12 +71,13 @@ genData <- function(P,
 
   if(isCorrI){
     Omega_itemsL <- rCorr(nDim=2, eta=2)
-    Omega_items <- tcrossprod(Omega_itemsL)
   }
 
   if(!isCorrI){
     Omega_itemsL <- diag(2)
   }
+
+  Omega_items <- tcrossprod(Omega_itemsL)
 
   sigma_tau <- runif(n=1, min=.75, max=2)
   sigma_lambda <- runif(n=1, min=.75, max=2)

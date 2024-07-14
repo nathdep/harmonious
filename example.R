@@ -6,8 +6,6 @@ coef_hyper=5
 sd_hyper=.1
 rhat_threshold=1.06
 maxCycles=3
-initFile="init_pi_corr.stan"
-runFile="run_pi_corr.stan"
 saveDir <- getwd()
 
 aux_envir <- genData(
@@ -19,8 +17,6 @@ aux_envir <- genData(
 )
 
 model <- CreateMod(
-  initFile=initFile,
-  runFile=runFile,
   aux_envir=aux_envir,
   coef_hyper=coef_hyper,
   sd_hyper=sd_hyper,

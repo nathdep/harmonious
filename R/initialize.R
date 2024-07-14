@@ -6,6 +6,7 @@
 #' @details  The first step in the two-step estimation framework for the \mjeqn{p \times i}{} model
 #' @returns Model results for the standardized \mjeqn{\theta}{} model added to the environment rendered by \code{\link{CreateMod}}
 initialize <- function(...){
+
   init_theta <- (rowSums(resps) - mean(rowSums(resps)))/sd(rowSums(resps))
   init_lambda <- vector(length=I, mode="numeric")
   init_tau <- vector(length=I, mode="numeric")
@@ -18,8 +19,6 @@ initialize <- function(...){
 
   init_sigma_lambda <- sd(init_lambda)
   init_sigma_tau <- sd(init_tau)
-
-  initstan <- cmdstan_model(initFile)
 
   initdata <- list(
     P=nrow(resps),
@@ -37,7 +36,9 @@ initialize <- function(...){
     sum_score=init_theta
   )
 
-  initrun <- initstan$sample(
+  initmod <- stan_package_model(name = modname, package = "harmonious")
+
+  initrun <- initmod$sample(
     iter_warmup=nWarmup_init,
     iter_sampling=nSamples_init,
     seed=seed,

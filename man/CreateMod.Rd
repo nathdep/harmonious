@@ -5,8 +5,6 @@
 \title{Create Adjunct CmdStan Model Environment}
 \usage{
 CreateMod(
-  initFile,
-  runFile,
   coef_hyper,
   sd_hyper,
   nWarmup_init,
@@ -17,10 +15,6 @@ CreateMod(
 )
 }
 \arguments{
-\item{initFile}{Path to .stan file with fixed \mjeqn{\theta}{} model configuration}
-
-\item{runFile}{Path to .stan file with the free \mjeqn{\theta}{} model configuration}
-
 \item{coef_hyper}{Hyperparameter value for the standard deviation of normally distributed parameters}
 
 \item{sd_hyper}{Hyperparameter value for the shape parameter of gamma distributed parameters}
