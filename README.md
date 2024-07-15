@@ -35,7 +35,8 @@ model <- CreateMod(
   nWarmup_init=2000,
   nSamples_init=2000,
   nWarmup_run=2000,
-  nSamples_run=2000
+  nSamples_run=2000,
+  isOptim=TRUE
 )
 
 fileDetails <- paste0(seed, "_P", P, "_I", I, "_J", J, "_K", K)
