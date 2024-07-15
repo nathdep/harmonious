@@ -141,7 +141,9 @@ CreateMod <- function(
       init=function()list(
         theta=init_theta,
         tau=init_tau,
-        lambda=init_lambda
+        lambda=init_lambda,
+        sigma_tau=init_sigma_tau,
+        sigma_lambda=init_sigma_lambda
       )
     )
 
