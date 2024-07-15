@@ -33,19 +33,38 @@ initialize <- function(...){
     true_theta=theta,
     true_lambda=lambda,
     true_tau=tau,
-    sum_score=init_theta
+    sum_score=init_theta,
+    true_beta_j_theta_est=beta_j_theta_est,
+    true_beta_k_lambda_est=beta_k_lambda_est,
+    true_beta_k_tau_est=beta_k_tau_est,
+    true_beta_jk_eta_est=beta_jk_eta_est
   )
 
-  initmod <- stan_package_model(name = modname, package = "harmonious")
+  if(isCorrI){
+    initstan <- cmdstsan_model(stan_file="stan/init_pi_corr.stan")
+  }
 
-  initrun <- initmod$sample(
-    iter_warmup=nWarmup_init,
-    iter_sampling=nSamples_init,
-    seed=seed,
-    data=initdata,
-    chains=4,
-    parallel_chains=4
-  )
+  if(!isCorrI){
+    initstan <- cmdstan_model(stan_file="stan/init_pi.stan")
+  }
+
+  if(isOptim){
+    initrun <- initstan$optimize(
+      data=initdata,
+      seed=seed
+    )
+  }
+
+  if(!isOptim){
+    initrun <- initstan$sample(
+      iter_warmup=nWarmup_init,
+      iter_sampling=nSamples_init,
+      seed=seed,
+      data=initdata,
+      chains=4,
+      parallel_chains=4
+    )
+  }
 
   initsum <- posterior::summarise_draws(initrun$draws())
   init_lambda=initsum[grepl("^lambda\\[", initsum$variable),]$mean

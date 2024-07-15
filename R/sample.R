@@ -19,10 +19,20 @@ sample <- function(...){
     sd_hyper=sd_hyper,
     true_theta=theta,
     true_lambda=lambda,
-    true_tau=tau
+    true_tau=tau,
+    true_beta_j_theta_est=beta_j_theta_est,
+    true_beta_k_lambda_est=beta_k_lambda_est,
+    true_beta_k_tau_est=beta_k_tau_est,
+    true_beta_jk_eta_est=beta_jk_eta_est
   )
 
-  modstan <- stan_package_model(name = modname, package = "harmonious")
+  if(isCorrI){
+    modstan <- cmdstsan_model(stan_file="stan/run_pi_corr.stan")
+  }
+
+  if(!isCorrI){
+    modstan <- cmdstan_model(stan_file="stan/run_pi.stan")
+  }
 
   modrun <- modstan$sample(
     iter_warmup=nWarmup_run,
