@@ -113,7 +113,7 @@ CreateMod <- function(
     )
 
     if(isCorrI){
-      modstan <- cmdstsan_model(stan_file="stan/run_pi_corr.stan")
+      modstan <- cmdstan_model(stan_file="stan/run_pi_corr.stan")
     }
 
     if(!isCorrI){
