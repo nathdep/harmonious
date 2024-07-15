@@ -13,7 +13,7 @@ aux_envir <- genData(
   I=75,
   J=3,
   K=3,
-  isCorrI=FALSE
+  isCorrI=TRUE
 )
 
 model <- CreateMod(
