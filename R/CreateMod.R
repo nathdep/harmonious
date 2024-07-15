@@ -124,11 +124,11 @@ CreateMod <- function(
     )
 
     if(isCorrI){
-      initstan <- cmdstsan_model(stan_file="stan/run_pi_corr.stan")
+      modstan <- cmdstsan_model(stan_file="stan/run_pi_corr.stan")
     }
 
     if(!isCorrI){
-      initstan <- cmdstan_model(stan_file="stan/run_pi.stan")
+      modstan <- cmdstan_model(stan_file="stan/run_pi.stan")
     }
 
     modrun <- modstan$sample(
