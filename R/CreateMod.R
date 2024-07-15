@@ -10,7 +10,6 @@
 #'@param nSampels_init Number of posterior draws for the fixed \mjeqn{\theta}{} model (after burn-in has completed)
 #'@param nWarmup_run Number of burn-in draws for the free \mjeqn{\theta}{} model
 #'@param nSamples_run Number of sampled posterior values for the free \mjeqn{\theta}{} model (after burn-in has completed)
-#'@param isOptim Use a Maximum A Priori (MAP) optimizer for finding initial values?
 #'
 #'@details Creates an environment with methods for fitting the fixed \mjeqn{\theta}{} and free \mjeqn{\theta}{} models. Additionally, `CreateMod` includes a method for recursively checking \mjeqn{\hat{R}}{} convergence.
 #'@seealso \code{\link{initialize}}, \code{\link{sample}}, \code{\link{rhatCheck}}
@@ -23,8 +22,7 @@ CreateMod <- function(
     nSamples_init,
     nWarmup_run,
     nSamples_run,
-    aux_envir,
-    isOptim
+    aux_envir
 )
 {
 
@@ -75,23 +73,14 @@ CreateMod <- function(
       initstan <- cmdstan_model(stan_file="stan/init_pi.stan")
     }
 
-    if(isOptim){
-      initrun <- initstan$optimize(
-        data=initdata,
-        seed=seed
-      )
-    }
-
-    if(!isOptim){
-      initrun <- initstan$sample(
-        iter_warmup=nWarmup_init,
-        iter_sampling=nSamples_init,
-        seed=seed,
-        data=initdata,
-        chains=4,
-        parallel_chains=4
-      )
-    }
+    initrun <- initstan$sample(
+      iter_warmup=nWarmup_init,
+      iter_sampling=nSamples_init,
+      seed=seed,
+      data=initdata,
+      chains=4,
+      parallel_chains=4
+    )
 
     initsum <- posterior::summarise_draws(initrun$draws())
     init_lambda=initsum[grepl("^lambda\\[", initsum$variable),]$mean
