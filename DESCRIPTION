@@ -14,7 +14,6 @@ Depends:
   mathjaxr,
   loo,
   remotes,
-  instantiate,
   cmdstanr
 Suggests:
   testthat (>= 3.0.0)

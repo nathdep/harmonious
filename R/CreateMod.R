@@ -10,6 +10,7 @@
 #'@param nSampels_init Number of posterior draws for the fixed \mjeqn{\theta}{} model (after burn-in has completed)
 #'@param nWarmup_run Number of burn-in draws for the free \mjeqn{\theta}{} model
 #'@param nSamples_run Number of sampled posterior values for the free \mjeqn{\theta}{} model (after burn-in has completed)
+#'@param isOptim Use a Maximum A Priori (MAP) optimizer for finding initial values?
 #'
 #'@details Creates an environment with methods for fitting the fixed \mjeqn{\theta}{} and free \mjeqn{\theta}{} models. Additionally, `CreateMod` includes a method for recursively checking \mjeqn{\hat{R}}{} convergence.
 #'@seealso \code{\link{initialize}}, \code{\link{sample}}, \code{\link{rhatCheck}}
@@ -22,7 +23,8 @@ CreateMod <- function(
     nSamples_init,
     nWarmup_run,
     nSamples_run,
-    aux_envir
+    aux_envir,
+    isOptim
 )
 {
 
@@ -66,25 +68,30 @@ CreateMod <- function(
     )
 
     if(isCorrI){
-      initName = "init_pi_corr"
-      initstan <- stan_package_model(name = initName, package = "harmonious")
+      initstan <- cmdstsan_model(stan_file="stan/init_pi_corr.stan")
     }
 
     if(!isCorrI){
-      initName = "init_pi"
-      initstan <- stan_package_model(name=initName, package="harmonious")
+      initstan <- cmdstan_model(stan_file="stan/init_pi.stan")
     }
 
-    cat(paste0("\n\nRUNNING ", initName, "\n\n"))
+    if(isOptim){
+      initrun <- initstan$optimize(
+        data=initdata,
+        seed=seed
+      )
+    }
 
-    initrun <- initstan$sample(
-      iter_warmup=nWarmup_init,
-      iter_sampling=nSamples_init,
-      seed=seed,
-      data=initdata,
-      chains=4,
-      parallel_chains=4
-    )
+    if(!isOptim){
+      initrun <- initstan$sample(
+        iter_warmup=nWarmup_init,
+        iter_sampling=nSamples_init,
+        seed=seed,
+        data=initdata,
+        chains=4,
+        parallel_chains=4
+      )
+    }
 
     initsum <- posterior::summarise_draws(initrun$draws())
     init_lambda=initsum[grepl("^lambda\\[", initsum$variable),]$mean
@@ -117,16 +124,12 @@ CreateMod <- function(
     )
 
     if(isCorrI){
-      runName = "run_pi_corr"
-      modstan <- stan_package_model(name = runName, package = "harmonious")
+      initstan <- cmdstsan_model(stan_file="stan/run_pi_corr.stan")
     }
 
     if(!isCorrI){
-      runName="run_pi"
-      modstan <- stan_package_model(name = runName, package = "harmonious")
+      initstan <- cmdstan_model(stan_file="stan/run_pi.stan")
     }
-
-    cat(paste0("\n\nRUNNING ", runName, "\n\n"))
 
     modrun <- modstan$sample(
       iter_warmup=nWarmup_run,

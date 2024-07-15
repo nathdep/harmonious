@@ -11,7 +11,8 @@ CreateMod(
   nSamples_init,
   nWarmup_run,
   nSamples_run,
-  aux_envir
+  aux_envir,
+  isOptim
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ CreateMod(
 \item{nSamples_run}{Number of sampled posterior values for the free \mjeqn{\theta}{} model (after burn-in has completed)}
 
 \item{aux_envir}{An environment object that contains objects to be loaded into the \code{CreateMod} environment (such as is returned by the \code{\link{genData}} function)}
+
+\item{isOptim}{Use a Maximum A Priori (MAP) optimizer for finding initial values?}
 
 \item{nSampels_init}{Number of posterior draws for the fixed \mjeqn{\theta}{} model (after burn-in has completed)}
 }
