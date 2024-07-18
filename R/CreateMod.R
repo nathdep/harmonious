@@ -7,9 +7,10 @@
 #'@param coef_hyper Hyperparameter value for the standard deviation of normally distributed parameters
 #'@param sd_hyper Hyperparameter value for the shape parameter of gamma distributed parameters
 #'@param nWarmup_init Number of burn-in draws for the fixed \mjeqn{\theta}{} model
-#'@param nSampels_init Number of posterior draws for the fixed \mjeqn{\theta}{} model (after burn-in has completed)
+#'@param nSamples_init Number of posterior draws for the fixed \mjeqn{\theta}{} model (after burn-in has completed)
 #'@param nWarmup_run Number of burn-in draws for the free \mjeqn{\theta}{} model
 #'@param nSamples_run Number of sampled posterior values for the free \mjeqn{\theta}{} model (after burn-in has completed)
+#'@param useADVIinit Use variational inference via the \code{mod$variational()} method to generate initial values?
 #'
 #'@details Creates an environment with methods for fitting the fixed \mjeqn{\theta}{} and free \mjeqn{\theta}{} models. Additionally, `CreateMod` includes a method for recursively checking \mjeqn{\hat{R}}{} convergence.
 #'@seealso \code{\link{initialize}}, \code{\link{sample}}, \code{\link{rhatCheck}}
@@ -22,7 +23,8 @@ CreateMod <- function(
     nSamples_init,
     nWarmup_run,
     nSamples_run,
-    aux_envir
+    aux_envir,
+    useADVIinit=TRUE
 )
 {
 
@@ -32,55 +34,94 @@ CreateMod <- function(
 
   initialize <- function(...){
 
-    init_theta <- (rowSums(resps) - mean(rowSums(resps)))/sd(rowSums(resps))
-    init_lambda <- vector(length=I, mode="numeric")
-    init_tau <- vector(length=I, mode="numeric")
+    if(!useADVIinit){
 
-    for(i in 1:I){
-      linmod <- glm(resps[,i] ~ init_theta, family=binomial(link="logit"))
-      init_tau[i] <- linmod$coefficients[1]
-      init_lambda[i] <- linmod$coefficients[2]
+      init_theta <- (rowSums(resps) - mean(rowSums(resps)))/sd(rowSums(resps))
+      init_lambda <- vector(length=I, mode="numeric")
+      init_tau <- vector(length=I, mode="numeric")
+
+      for(i in 1:I){
+        linmod <- glm(resps[,i] ~ init_theta, family=binomial(link="logit"))
+        init_tau[i] <- linmod$coefficients[1]
+        init_lambda[i] <- linmod$coefficients[2]
+      }
+
+      init_sigma_lambda <- sd(init_lambda)
+      init_sigma_tau <- sd(init_tau)
+
+      initdata <- list(
+        P=nrow(resps),
+        I=ncol(resps),
+        J=max(Z),
+        K=max(X),
+        X=X,
+        Z=Z,
+        Y=resps,
+        coef_hyper=coef_hyper,
+        sd_hyper=sd_hyper,
+        true_theta=theta,
+        true_lambda=lambda,
+        true_tau=tau,
+        sum_score=init_theta,
+        true_beta_j_theta_est=beta_j_theta_est,
+        true_beta_k_lambda_est=beta_k_lambda_est,
+        true_beta_k_tau_est=beta_k_tau_est,
+        true_beta_jk_eta_est=beta_jk_eta_est
+      )
+
+      if(isCorrI){
+        initstan <- cmdstan_model(stan_file="stan/init_pi_corr.stan")
+      }
+
+      if(!isCorrI){
+        initstan <- cmdstan_model(stan_file="stan/init_pi.stan")
+      }
+
+      initrun <- initstan$sample(
+        iter_warmup=nWarmup_init,
+        iter_sampling=nSamples_init,
+        seed=seed,
+        data=initdata,
+        chains=4,
+        parallel_chains=4
+      )
+
     }
 
-    init_sigma_lambda <- sd(init_lambda)
-    init_sigma_tau <- sd(init_tau)
+    if(useADVIinit){
+      initdata <- list(
+        P=nrow(resps),
+        I=ncol(resps),
+        J=max(Z),
+        K=max(X),
+        X=X,
+        Z=Z,
+        Y=resps,
+        coef_hyper=coef_hyper,
+        sd_hyper=sd_hyper,
+        true_theta=theta,
+        true_lambda=lambda,
+        true_tau=tau,
+        true_beta_j_theta_est=beta_j_theta_est,
+        true_beta_k_lambda_est=beta_k_lambda_est,
+        true_beta_k_tau_est=beta_k_tau_est,
+        true_beta_jk_eta_est=beta_jk_eta_est
+      )
 
-    initdata <- list(
-      P=nrow(resps),
-      I=ncol(resps),
-      J=max(Z),
-      K=max(X),
-      X=X,
-      Z=Z,
-      Y=resps,
-      coef_hyper=coef_hyper,
-      sd_hyper=sd_hyper,
-      true_theta=theta,
-      true_lambda=lambda,
-      true_tau=tau,
-      sum_score=init_theta,
-      true_beta_j_theta_est=beta_j_theta_est,
-      true_beta_k_lambda_est=beta_k_lambda_est,
-      true_beta_k_tau_est=beta_k_tau_est,
-      true_beta_jk_eta_est=beta_jk_eta_est
-    )
+      if(isCorrI){
+        initmod <- cmdstan_model(stan_file="stan/run_pi_corr.stan")
+      }
 
-    if(isCorrI){
-      initstan <- cmdstan_model(stan_file="stan/init_pi_corr.stan")
+      if(!isCorrI){
+        initmod <- cmdstan_model(stan_file="stan/run_pi.stan")
+      }
+
+      initrun <- initmod$variational(
+        seed=seed,
+        data=initdata
+      )
+
     }
-
-    if(!isCorrI){
-      initstan <- cmdstan_model(stan_file="stan/init_pi.stan")
-    }
-
-    initrun <- initstan$sample(
-      iter_warmup=nWarmup_init,
-      iter_sampling=nSamples_init,
-      seed=seed,
-      data=initdata,
-      chains=4,
-      parallel_chains=4
-    )
 
     initsum <- posterior::summarise_draws(initrun$draws())
     init_lambda=initsum[grepl("^lambda\\[", initsum$variable),]$mean
@@ -127,14 +168,22 @@ CreateMod <- function(
       data=moddata,
       chains=4,
       parallel_chains=4,
-      init=function()list(
-        theta=init_theta,
-        tau=init_tau,
-        lambda=init_lambda,
-        sigma_tau=init_sigma_tau,
-        sigma_lambda=init_sigma_lambda
-      )
+      init=function(){
+        param_names <- initsum[!grepl("^rmsd", initsum$variable) & !grepl("^lp", initsum$variable),]$variable
+        param_names_ind <- which(!grepl("^rmsd", initsum$variable) & !grepl("^lp", initsum$variable))
+        no_brackets <- gsub("\\[.*\\]", "", param_names)
+        init_list <- vector(length=length(unique(no_brackets)), mode="list")
+        names(init_list) <- unique(no_brackets)
+        for(i in 1:length(param_names)){
+          init_list[[no_brackets[i]]] <- c(init_list[[no_brackets[i]]], initsum$mean[param_names_ind[i]])
+        }
+        dim(init_list$Omega_itemsL) <- c(2,2)
+        dim(init_list$z_items) <- c(2,moddata$I)
+        dim(init_list$beta_jk_eta_est) <- c(max(Z)-1, max(X)-1)
+        return(init_list)
+      }
     )
+
 
     modsum <- posterior::summarise_draws(modrun$draws())
 

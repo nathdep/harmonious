@@ -11,7 +11,8 @@ CreateMod(
   nSamples_init,
   nWarmup_run,
   nSamples_run,
-  aux_envir
+  aux_envir,
+  useADVIinit = TRUE
 )
 }
 \arguments{
@@ -21,13 +22,15 @@ CreateMod(
 
 \item{nWarmup_init}{Number of burn-in draws for the fixed \mjeqn{\theta}{} model}
 
+\item{nSamples_init}{Number of posterior draws for the fixed \mjeqn{\theta}{} model (after burn-in has completed)}
+
 \item{nWarmup_run}{Number of burn-in draws for the free \mjeqn{\theta}{} model}
 
 \item{nSamples_run}{Number of sampled posterior values for the free \mjeqn{\theta}{} model (after burn-in has completed)}
 
 \item{aux_envir}{An environment object that contains objects to be loaded into the \code{CreateMod} environment (such as is returned by the \code{\link{genData}} function)}
 
-\item{nSampels_init}{Number of posterior draws for the fixed \mjeqn{\theta}{} model (after burn-in has completed)}
+\item{useADVIinit}{Use variational inference via the \code{mod$variational()} method to generate initial values?}
 }
 \value{
 an environment object containing fixed \mjeqn{\theta}{} and free \mjeqn{\theta}{} model results

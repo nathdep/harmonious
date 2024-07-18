@@ -26,6 +26,7 @@ parameters{
   matrix[2,I] z_items;
   real<lower=0> sigma_tau;
   real<lower=0> sigma_lambda;
+  vector[J-1] beta_j_theta_est;
   row_vector[K-1] beta_k_tau_est;
   row_vector[K-1] beta_k_lambda_est;
   matrix[J-1, K-1] beta_jk_eta_est;
@@ -49,6 +50,8 @@ model{
   }
 
   matrix[2,I] u_items = diag_pre_multiply([sigma_lambda, sigma_tau], Omega_itemsL)*z_items;
+
+  sum_score ~ normal(append_row(0.0,beta_j_theta_est)[Z], 1.0);
 
   row_vector[I] lambda = append_col(1.0, beta_k_lambda_est)[X] + u_items[1,];
   row_vector[I] tau = append_col(0.0, beta_k_tau_est)[X] + u_items[2,];
