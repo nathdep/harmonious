@@ -27,7 +27,7 @@ sample <- function(...){
   )
 
   if(isCorrI){
-    modstan <- cmdstsan_model(stan_file="stan/run_pi_corr.stan")
+    modstan <- cmdstan_model(stan_file="stan/run_pi_corr.stan")
   }
 
   if(!isCorrI){
@@ -41,12 +41,21 @@ sample <- function(...){
     data=moddata,
     chains=4,
     parallel_chains=4,
-    init=function()list(
-      theta=init_theta,
-      tau=init_tau,
-      lambda=init_lambda
-    )
+    init=function(){
+      param_names <- initsum[!grepl("^rmsd", initsum$variable) & !grepl("^lp", initsum$variable),]$variable
+      param_names_ind <- which(!grepl("^rmsd", initsum$variable) & !grepl("^lp", initsum$variable))
+      no_brackets <- gsub("\\[.*\\]", "", param_names)
+      init_list <- vector(length=length(unique(no_brackets)), mode="list")
+      names(init_list) <- unique(no_brackets)
+      for(i in 1:length(param_names)){
+        init_list[[no_brackets[i]]] <- c(init_list[[no_brackets[i]]], initsum$mean[param_names_ind[i]])
+      }
+      dim(init_list$Omega_itemsL) <- c(2,2)
+      dim(init_list$z_items) <- c(2,moddata$I)
+      return(init_list)
+    }
   )
+
 
   modsum <- posterior::summarise_draws(modrun$draws())
 
