@@ -28,7 +28,7 @@ model <- CreateMod(
 
 fileDetails <- paste0(seed, "_P", P, "_I", I, "_J", J, "_K", K)
 
-model$initialize(useADVIinit=TRUE)
+model$initialize()
 model$sample()
 rhatCheck()
 

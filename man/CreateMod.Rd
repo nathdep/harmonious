@@ -11,8 +11,7 @@ CreateMod(
   nSamples_init,
   nWarmup_run,
   nSamples_run,
-  aux_envir,
-  useADVIinit = TRUE
+  aux_envir
 )
 }
 \arguments{
@@ -29,8 +28,6 @@ CreateMod(
 \item{nSamples_run}{Number of sampled posterior values for the free \mjeqn{\theta}{} model (after burn-in has completed)}
 
 \item{aux_envir}{An environment object that contains objects to be loaded into the \code{CreateMod} environment (such as is returned by the \code{\link{genData}} function)}
-
-\item{useADVIinit}{Use variational inference via the \code{mod$variational()} method to generate initial values?}
 }
 \value{
 an environment object containing fixed \mjeqn{\theta}{} and free \mjeqn{\theta}{} model results
