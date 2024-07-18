@@ -118,7 +118,9 @@ CreateMod <- function(
         for(i in 1:length(param_names)){
           init_list[[no_brackets[i]]] <- c(init_list[[no_brackets[i]]], initsum$mean[param_names_ind[i]])
         }
-        dim(init_list$Omega_itemsL) <- c(2,2)
+        if(isCorrI){
+          dim(init_list$Omega_itemsL) <- c(2,2)
+        }
         dim(init_list$z_items) <- c(2,moddata$I)
         return(init_list)
       }
